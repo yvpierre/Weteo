@@ -1,0 +1,50 @@
+.searchbar {
+  width: 60%;
+  position: relative;
+}
+.searchbar input {
+  font-size: 16px;
+  height: 60px;
+  padding-left: 20px;
+  background-color: white;
+  width: 100%;
+  border-radius: 50px;
+  border: 2px solid #C7CCDB;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+}
+.searchbar btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -15px;
+  z-index: 9999;
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  background-color: #2A324B;
+  color: white;
+}
+.searchbar btn:hover {
+  background-color: #353c59;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.home {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: 150px;
+}
+.home h1 {
+  font-size: 90px;
+  max-width: 70%;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+/*# sourceMappingURL=index.css.map */
