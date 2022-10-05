@@ -12,7 +12,7 @@
   border: 2px solid #C7CCDB;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
 }
-.searchbar btn {
+.searchbar .btn--search {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -27,7 +27,7 @@
   background-color: #2A324B;
   color: white;
 }
-.searchbar btn:hover {
+.searchbar .btn--search:hover {
   background-color: #353c59;
   cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
@@ -50,6 +50,24 @@
 html {
   background-color: #E1E5EE;
   color: #2A324B;
+}
+
+.temp--result {
+  margin-top: 80px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: 200px;
+}
+.temp--result .temp--degrees {
+  margin-top: 30px;
+  font-size: 40px;
+}
+.temp--result .temp--city {
+  font-size: 18px;
 }
 
 /*# sourceMappingURL=App.css.map */

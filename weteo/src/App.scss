@@ -12,3 +12,24 @@ html {
   background-color: $color25;
   color: $color55;
 }
+
+.temp--result {
+  margin-top: 80px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: 200px;
+
+  .temp--degrees {
+    margin-top: 30px;
+    font-size: 40px;
+  }
+
+  .temp--city {
+    font-size: 18px;
+  }
+
+}
