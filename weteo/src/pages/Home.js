@@ -1,13 +1,15 @@
 import React from 'react';
 import Searchbar from '../components/Searchbar'
-import ApiCalls from "../api/ApiCalls";
+import WeatherApiCalls from "../api/WeatherApiCalls";
+import SpottApiCalls from "../api/SpottApiCalls";
 
 const Home = () => {
     return (
         <div className={"home"}>
             <h1>Trouvez votre météo en un rien de temps</h1>
             <Searchbar/>
-            <ApiCalls lat="44.8199053" long="-0.5980165"/>
+            <WeatherApiCalls lat="44.8199053" long="-0.5980165"/>
+            <SpottApiCalls/>
         </div>
     );
 };

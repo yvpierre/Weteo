@@ -9,7 +9,7 @@ const kelvToCelcius = (tempKev) => {
     return Math.round(tempKev -273.15)
 }
 
-const ApiCalls = (lat, long) => {
+const WeatherApiCalls = (lat, long) => {
     let res = {
         temp: 0,
         city: "",
@@ -37,4 +37,4 @@ const ApiCalls = (lat, long) => {
 
 };
 
-export default ApiCalls;
+export default WeatherApiCalls;
