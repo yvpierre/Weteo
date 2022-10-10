@@ -11,10 +11,10 @@ const kelvToCelcius = (tempKev) => {
 
 const CitiesApi = () => {
 
-    const [initial, setInitial] = useState();
+    let [cities, setCities] = useState();
 
     let citiesApiRes = [];
-    const GetInitialData = () => {
+    const GetInitialData = (long, lat) => {
         const settings = {
             "async": false,
             "crossDomain": true,
@@ -26,37 +26,22 @@ const CitiesApi = () => {
             }
         };
         $.ajax(settings).done(function (response) {
-            setInitial(response)
+            setCities(response)
         });
     }
 
     useEffect(() => {
-        let response = GetInitialData();
-        for(let i in response) {
-            console.log(response)
-            citiesApiRes.push([response[i].coordinates.latitude,response[i].coordinates.latitude])
+        for(let i in cities) {
+            console.log("cities api")
+            citiesApiRes.push([cities[i].coordinates.latitude,cities[i].coordinates.latitude])
         }
-    },[])
+    }, [])
+
 
     return citiesApiRes;
 }
 
-const WeatherApi = () => {
-
-    const [initial, setInitial] = useState();
-    const getInitialData = () => {
-        $.ajax({
-            url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
-            // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
-            success: function (data) {
-                setInitial(data)
-            },
-            error: function (data) {
-                console.error(`Request error : ${data}`)
-            },
-            async: false
-        })
-    }
+const WeatherApi = (long, lat) => {
 
     let weatherApiRes = {
         temp: 0,
@@ -64,24 +49,29 @@ const WeatherApi = () => {
         country: ""
     };
 
-    useEffect(() => {
-        getInitialData();
-    }, [])
+    $.ajax({
+        url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
+        // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
+        success: function (data) {
+            console.log("dedans")
+            weatherApiRes.temp = kelvToCelcius(data.main.temp)
+            weatherApiRes.city = data.name
+            weatherApiRes.country = data.sys.country
+        },
+        error: function (data) {
+            console.error(`Request error : ${data}`)
+        },
+        async: false
+    })
 
-    let response = initial;
-    if(response) {
-        weatherApiRes.temp = kelvToCelcius(response.main.temp)
-        weatherApiRes.city = response.name
-        weatherApiRes.country = response.sys.country
-    }
-
-    console.log(weatherApiRes)
     return weatherApiRes
 }
 
 
 const getWeatherFromCoords = (lat, long) => {
     let tabCities = CitiesApi();
+    console.log("Tab Cities")
+    console.table(tabCities)
     let tabWeathers = WeatherApi();
     let res;
     for(let i in tabCities.length) {
@@ -97,6 +87,7 @@ const WeatherApiCalls = (lat, long) => {
     return <div className={"temp--result"}>
                 <div className={"temp--degrees"}>{WeatherApi().temp}&nbsp;°C</div>
                 <div className={"temp--city"}>{WeatherApi().city},&nbsp;{WeatherApi().country}</div>
+                <button onClick={get}
                 {CitiesApi().map(elem => (
                     <p>{getWeatherFromCoords(45.7485, 4.84671)}</p>
                     ))}
