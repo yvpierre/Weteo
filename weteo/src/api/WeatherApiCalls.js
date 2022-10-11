@@ -1,5 +1,5 @@
 import $ from "jquery";
-import React, {useEffect, useState} from 'react';
+import React, {forwardRef, useEffect, useState, useImperativeHandle} from 'react';
 
 const farhToCelcius = (tempFahr) => {
     return (tempFahr - 32)/1.8
@@ -10,10 +10,39 @@ const kelvToCelcius = (tempKev) => {
 }
 
 
-const WeatherApiCalls = (lat, long) => {
+const WeatherApiCalls = forwardRef((props, ref) => {
 
     let [cities, setCities] = useState([]);
     let [temps, setTemps] = useState([])
+
+
+    useImperativeHandle(ref, () => {
+        const getLondon = () => {
+            let weatherApiRes = {
+                temp: 0,
+                city: "",
+                country: "",
+            }
+
+            $.ajax({
+                url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
+                // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
+                success: function (data) {
+                    let temp = []
+                    weatherApiRes.temp = kelvToCelcius(data.main.temp)
+                    weatherApiRes.city = data.name
+                    weatherApiRes.country = data.sys.country
+                    temp.push(weatherApiRes)
+
+                    setTemps(temp)
+                },
+                error: function (data) {
+                    console.error(`Request error : ${data}`)
+                },
+                async: false
+            })
+        }
+    })
 
     useEffect(() => {
         const settingsCities = {
@@ -31,31 +60,8 @@ const WeatherApiCalls = (lat, long) => {
             setCities(response)
         })
 
-        let weatherApiRes = {
-            temp: 0,
-            city: "",
-            country: "",
-        }
-
-        $.ajax({
-            url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
-            // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
-            success: function (data) {
-                let temp = []
-                weatherApiRes.temp = kelvToCelcius(data.main.temp)
-                weatherApiRes.city = data.name
-                weatherApiRes.country = data.sys.country
-                temp.push(weatherApiRes)
-
-                setTemps(temp)
-            },
-            error: function (data) {
-                console.error(`Request error : ${data}`)
-            },
-            async: false
-        })
-
     }, [])
+
 
 
     return (
@@ -68,7 +74,6 @@ const WeatherApiCalls = (lat, long) => {
        </div>
     )
 
-
-};
+});
 
 export default WeatherApiCalls;

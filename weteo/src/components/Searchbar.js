@@ -1,5 +1,6 @@
 import $ from "jquery";
 import React, {useState} from 'react';
+import WeatherApiCalls from "../api/WeatherApiCalls";
 
 
 const farhToCelcius = (tempFahr) => {
