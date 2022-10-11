@@ -9,13 +9,14 @@ const kelvToCelcius = (tempKev) => {
     return Math.round(tempKev -273.15)
 }
 
-const CitiesApi = () => {
 
-    let [cities, setCities] = useState();
+const WeatherApiCalls = (lat, long) => {
 
-    let citiesApiRes = [];
-    const GetInitialData = (long, lat) => {
-        const settings = {
+    let [cities, setCities] = useState([]);
+    let [temps, setTemps] = useState([])
+
+    useEffect(() => {
+        const settingsCities = {
             "async": false,
             "crossDomain": true,
             "url": "https://spott.p.rapidapi.com/places/autocomplete?limit=10&skip=0&country=FR&type=CITY",
@@ -25,73 +26,47 @@ const CitiesApi = () => {
                 "X-RapidAPI-Host": "spott.p.rapidapi.com"
             }
         };
-        $.ajax(settings).done(function (response) {
+        $.ajax(settingsCities).done(function (response) {
+            console.log(response)
             setCities(response)
-        });
-    }
+        })
 
-    useEffect(() => {
-        for(let i in cities) {
-            console.log("cities api")
-            citiesApiRes.push([cities[i].coordinates.latitude,cities[i].coordinates.latitude])
+        let weatherApiRes = {
+            temp: 0,
+            city: "",
+            country: "",
         }
+
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
+            // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
+            success: function (data) {
+                let temp = []
+                weatherApiRes.temp = kelvToCelcius(data.main.temp)
+                weatherApiRes.city = data.name
+                weatherApiRes.country = data.sys.country
+                temp.push(weatherApiRes)
+
+                setTemps(temp)
+            },
+            error: function (data) {
+                console.error(`Request error : ${data}`)
+            },
+            async: false
+        })
+
     }, [])
 
 
-    return citiesApiRes;
-}
-
-const WeatherApi = (long, lat) => {
-
-    let weatherApiRes = {
-        temp: 0,
-        city: "",
-        country: ""
-    };
-
-    $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
-        // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
-        success: function (data) {
-            console.log("dedans")
-            weatherApiRes.temp = kelvToCelcius(data.main.temp)
-            weatherApiRes.city = data.name
-            weatherApiRes.country = data.sys.country
-        },
-        error: function (data) {
-            console.error(`Request error : ${data}`)
-        },
-        async: false
-    })
-
-    return weatherApiRes
-}
-
-
-const getWeatherFromCoords = (lat, long) => {
-    let tabCities = CitiesApi();
-    console.log("Tab Cities")
-    console.table(tabCities)
-    let tabWeathers = WeatherApi();
-    let res;
-    for(let i in tabCities.length) {
-        if(tabCities[i].latitude === lat && tabCities[i].longitude === long) {
-            res = tabCities[i].name
-        }
-    }
-    return res;
-}
-
-const WeatherApiCalls = (lat, long) => {
-
-    return <div className={"temp--result"}>
-                <div className={"temp--degrees"}>{WeatherApi().temp}&nbsp;°C</div>
-                <div className={"temp--city"}>{WeatherApi().city},&nbsp;{WeatherApi().country}</div>
-                <button onClick={get}
-                {CitiesApi().map(elem => (
-                    <p>{getWeatherFromCoords(45.7485, 4.84671)}</p>
-                    ))}
-           </div>
+    return (
+        <div className={"temp--result"}>
+        <div className={"temp--degrees"}>{temps[0].temp}&nbsp;°C</div>
+                <div className={"temp--city"}>{temps[0].city},&nbsp;{temps[0].country}</div>
+            {cities.map(elem => (
+                <p>{elem.name}</p>
+            ))}
+       </div>
+    )
 
 
 };
