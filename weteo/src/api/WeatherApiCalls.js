@@ -15,33 +15,34 @@ const WeatherApiCalls = forwardRef((props, ref) => {
     let [cities, setCities] = useState([]);
     let [temps, setTemps] = useState([])
 
-
-    useImperativeHandle(ref, () => {
-        const getLondon = () => {
-            let weatherApiRes = {
-                temp: 0,
-                city: "",
-                country: "",
-            }
-
-            $.ajax({
-                url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
-                // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
-                success: function (data) {
-                    let temp = []
-                    weatherApiRes.temp = kelvToCelcius(data.main.temp)
-                    weatherApiRes.city = data.name
-                    weatherApiRes.country = data.sys.country
-                    temp.push(weatherApiRes)
-
-                    setTemps(temp)
-                },
-                error: function (data) {
-                    console.error(`Request error : ${data}`)
-                },
-                async: false
-            })
+    useImperativeHandle(ref, () => ({
+        getTest() {
+            alert("test")
         }
+    }))
+/*
+    let weatherApiRes = {
+        temp: 0,
+        city: "",
+        country: "",
+    }
+
+    $.ajax({
+        url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c2b6c546db4d83d66aaad046da0c18ab",
+        // url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat.toString()}&lon="${long.toString()}"&appid=c2b6c546db4d83d66aaad046da0c18ab`,
+        success: function (data) {
+            let temp = []
+            weatherApiRes.temp = kelvToCelcius(data.main.temp)
+            weatherApiRes.city = data.name
+            weatherApiRes.country = data.sys.country
+            temp.push(weatherApiRes)
+
+            setTemps(temp)
+        },
+        error: function (data) {
+            console.error(`Request error : ${data}`)
+        },
+        async: false
     })
 
     useEffect(() => {
@@ -63,7 +64,6 @@ const WeatherApiCalls = forwardRef((props, ref) => {
     }, [])
 
 
-
     return (
         <div className={"temp--result"}>
         <div className={"temp--degrees"}>{temps[0].temp}&nbsp;°C</div>
@@ -73,6 +73,10 @@ const WeatherApiCalls = forwardRef((props, ref) => {
             ))}
        </div>
     )
+
+
+ */
+    return (<div>Teste</div>)
 
 });
 
