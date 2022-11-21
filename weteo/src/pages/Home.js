@@ -16,7 +16,7 @@ const Home = () => {
             <h1>Trouvez votre météo en un rien de temps</h1>
             <Searchbar />
             <WeatherApiCalls ref={childRef} props={props}/>
-            <button onClick={() => childRef.current.getTest()}>BOUTON</button>
+            {/* <button onClick={() => childRef.current.getTest()}>BOUTON</button> */}
 
         </div>
     );

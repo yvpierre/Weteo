@@ -19,6 +19,7 @@ const WeatherApiCalls = forwardRef((props, ref) => {
         getTest() {
             alert("test")
         }
+
     }))
 /*
     let weatherApiRes = {
@@ -76,7 +77,7 @@ const WeatherApiCalls = forwardRef((props, ref) => {
 
 
  */
-    return (<div>Teste</div>)
+    return (<div>Test</div>)
 
 });
 
